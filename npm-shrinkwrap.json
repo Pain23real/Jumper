@@ -1,0 +1,43 @@
+{
+  "name": "solana-wallet-app",
+  "version": "0.1.0",
+  "lockfileVersion": 2,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "solana-wallet-app",
+      "version": "0.1.0",
+      "dependencies": {
+        "react": "18.2.0",
+        "react-dom": "18.2.0"
+      },
+      "engines": {
+        "node": "16.20.0",
+        "npm": "8.19.4"
+      }
+    },
+    "node_modules/react": {
+      "version": "18.2.0",
+      "resolved": "https://registry.npmjs.org/react/-/react-18.2.0.tgz",
+      "integrity": "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==",
+      "dependencies": {
+        "loose-envify": "^1.1.0"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/react-dom": {
+      "version": "18.2.0",
+      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz",
+      "integrity": "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==",
+      "dependencies": {
+        "loose-envify": "^1.1.0",
+        "scheduler": "^0.23.0"
+      },
+      "peerDependencies": {
+        "react": "^18.2.0"
+      }
+    }
+  }
+} 
