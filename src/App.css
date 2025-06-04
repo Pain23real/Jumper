@@ -1,0 +1,1068 @@
+/* Основные стили */
+:root {
+  --primary-color: #8a2be2; /* Основной фиолетовый цвет */
+  --secondary-color: #4a2b7a; /* Более темный фиолетовый */
+  --accent-color: #9845f5; /* Акцентный светло-фиолетовый */
+  --neon-purple: #b026ff; /* Неоновый фиолетовый */
+  --neon-blue: #4d4dff; /* Неоновый синий */
+  --text-color: #ffffff; /* Белый текст */
+  --dark-text: #333333; /* Темный текст */
+  --shadow-color: rgba(0, 0, 0, 0.3); /* Тень */
+  --bg-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* Градиент фона */
+  --neon-glow: 0 0 10px rgba(176, 38, 255, 0.7), 0 0 20px rgba(176, 38, 255, 0.5); /* Неоновое свечение */
+  --neon-text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #b026ff, 0 0 20px #b026ff, 0 0 25px #b026ff; /* Неоновый текст */
+  --cybersecurity-gradient: linear-gradient(45deg, #4a2b7a, #8a2be2, #4a2b7a); /* Градиент для элементов безопасности */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(-45deg, #1a0933, #4a2b7a, #3b1e66, #2c1255);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  min-height: 100vh;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Добавляем сложный фон с сеткой */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(176, 38, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 90% 90%, rgba(74, 43, 122, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(26, 9, 51, 0.05) 0%, rgba(26, 9, 51, 0.3) 100%);
+  z-index: -1;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(26, 9, 51, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 9, 51, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+/* Ключевые анимации */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@-webkit-keyframes fadeIn {
+  from { opacity: 0; -webkit-transform: translateY(20px); }
+  to { opacity: 1; -webkit-transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+@-webkit-keyframes pulse {
+  0% { -webkit-transform: scale(1); }
+  50% { -webkit-transform: scale(1.05); }
+  100% { -webkit-transform: scale(1); }
+}
+
+/* Анимация неонового мерцания */
+@keyframes neonFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00e5ff, 0 0 20px #00e5ff, 0 0 25px #00e5ff;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+/* Анимация сканирования для элементов безопасности */
+@keyframes securityScan {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Анимации для криптического сообщения */
+@keyframes crypticGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(176, 38, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(176, 38, 255, 0.5), 0 0 30px rgba(77, 77, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(176, 38, 255, 0.3);
+  }
+}
+@-webkit-keyframes crypticGlow {
+  0% {
+    -webkit-box-shadow: 0 0 5px rgba(176, 38, 255, 0.3);
+  }
+  50% {
+    -webkit-box-shadow: 0 0 15px rgba(176, 38, 255, 0.5);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 5px rgba(176, 38, 255, 0.3);
+  }
+}
+
+@keyframes textPulse {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+@-webkit-keyframes textPulse {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+.App {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Добавляем эффект сетки для кибер-стиля */
+.App::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(176, 38, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(176, 38, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.App > * {
+  position: relative;
+  z-index: 2;
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+  color: var(--text-color);
+}
+
+h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: #00e5ff;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00e5ff, 0 0 20px #00e5ff, 0 0 25px #00e5ff;
+  letter-spacing: 3px;
+  animation: neonFlicker 2s infinite alternate;
+}
+
+/* Стиль для главного заголовка на главной странице */
+.main-title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: #8a2be2;
+  text-shadow: 
+    0 0 5px #fff, 
+    0 0 10px #fff, 
+    0 0 15px #8a2be2, 
+    0 0 20px #8a2be2, 
+    0 0 25px #8a2be2;
+  letter-spacing: 3px;
+  animation: purpleNeonFlicker 2s infinite alternate;
+  text-transform: uppercase;
+  font-weight: 800;
+  transform-style: preserve-3d;
+  transform: perspective(500px) rotateX(10deg);
+}
+
+.main-title::before {
+  content: "The Secret Jump";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(138, 43, 226, 0.5);
+  transform: translateZ(-8px);
+  filter: blur(3px);
+  opacity: 0.7;
+}
+
+/* Анимация мерцания для фиолетового неона */
+@keyframes purpleNeonFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 
+      0 0 5px #fff, 
+      0 0 10px #fff, 
+      0 0 15px #8a2be2, 
+      0 0 20px #8a2be2, 
+      0 0 25px #8a2be2;
+    color: #8a2be2;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+    color: #6a11cb;
+  }
+}
+
+button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(176, 38, 255, 0.5);
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  background-color: var(--neon-purple);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(176, 38, 255, 0.7), 0 0 30px rgba(176, 38, 255, 0.4);
+}
+
+input[type="text"] {
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid var(--neon-purple);
+  width: 100%;
+  max-width: 300px;
+  background-color: rgba(26, 9, 51, 0.7);
+  color: white;
+  box-shadow: 0 0 10px rgba(176, 38, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 15px rgba(176, 38, 255, 0.5), 0 0 30px rgba(176, 38, 255, 0.3);
+  outline: none;
+}
+
+/* Game Description Section */
+.game-description {
+  max-width: 1000px;
+  width: 100%;
+  background-color: rgba(26, 9, 51, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(176, 38, 255, 0.3);
+  animation: fadeIn 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-description::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(45deg, transparent 48%, rgba(176, 38, 255, 0.1) 50%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(176, 38, 255, 0.1) 50%, transparent 52%);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.description-container {
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+  font-style: italic;
+  color: #d0a9ff;
+  text-shadow: 0 0 5px rgba(176, 38, 255, 0.5);
+}
+
+/* Стили для криптического сообщения */
+.cryptic-message {
+  margin: 25px auto;
+  max-width: 700px;
+  padding: 20px;
+  background-color: rgba(26, 9, 51, 0.8);
+  border-left: 3px solid var(--neon-purple);
+  border-radius: 5px;
+  animation: crypticGlow 3s infinite;
+  position: relative;
+}
+
+.cryptic-message::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--cybersecurity-gradient);
+  background-size: 200% 200%;
+  opacity: 0.1;
+  animation: securityScan 15s linear infinite;
+  pointer-events: none;
+}
+
+.enigma-text {
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+  color: #f0f0f0;
+  animation: textPulse 5s infinite;
+  position: relative;
+}
+
+.arcium-text {
+  font-size: 1.1rem;
+  color: #b388ff;
+  font-weight: 600;
+  animation: textPulse 5s infinite 1s;
+  text-shadow: 0 0 5px rgba(176, 38, 255, 0.7);
+}
+
+/* Стиль для секции создателя */
+.creator-note {
+  margin-top: 40px;
+  font-size: 1rem;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.creator-name {
+  color: var(--neon-purple);
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(176, 38, 255, 0.5);
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.feature {
+  background-color: rgba(26, 9, 51, 0.8);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 10px;
+  width: 250px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(176, 38, 255, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(176, 38, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(transparent, rgba(176, 38, 255, 0.1), transparent 30%);
+  animation: rotate 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.feature:hover::before {
+  opacity: 1;
+}
+
+.feature:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(176, 38, 255, 0.5);
+  background-color: rgba(26, 9, 51, 0.9);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+  color: var(--neon-purple);
+  text-shadow: 0 0 10px rgba(176, 38, 255, 0.7);
+  width: 100%;
+  text-align: center;
+}
+
+.feature:hover .feature-icon {
+  transform: scale(1.2);
+  animation: iconPulse 1s infinite;
+}
+
+@keyframes iconPulse {
+  0% { transform: scale(1.2); text-shadow: 0 0 10px rgba(176, 38, 255, 0.7); }
+  50% { transform: scale(1.4); text-shadow: 0 0 20px rgba(176, 38, 255, 0.9); }
+  100% { transform: scale(1.2); text-shadow: 0 0 10px rgba(176, 38, 255, 0.7); }
+}
+
+.feature h3 {
+  margin-top: 0;
+  color: #e0e0e0;
+  text-shadow: 0 0 5px rgba(176, 38, 255, 0.5);
+  width: 100%;
+}
+
+.feature p {
+  width: 100%;
+}
+
+/* Game Container */
+.game-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 500px;
+  margin: 30px auto;
+  background-color: #222;
+  overflow: hidden;
+  box-shadow: 0 0 30px var(--shadow-color);
+}
+
+canvas#gameCanvas {
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.score {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Overlay Menus */
+.menu-overlay, .menu-overlay-game {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.menu-overlay h1, .menu-overlay-game h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Mobile Controls */
+.mobile-controls {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+}
+
+.mobile-btn {
+  background-color: var(--accent-color);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.7;
+}
+
+.mobile-btn:active {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Leaderboard */
+#leaderboard {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--secondary-color);
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  z-index: 100;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.leaderboard-table-wrapper {
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table th, .leaderboard-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.leaderboard-table th {
+  background-color: var(--primary-color);
+}
+
+.leaderboard-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* How to Play Section */
+.how-it-works {
+  background-color: #1a1a1a;
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dark-box {
+  background-color: var(--secondary-color);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 40px 0;
+  justify-content: center;
+}
+
+.step {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  position: relative;
+}
+
+.step-number {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Benefits Section */
+.benefits {
+  padding: 40px 0;
+}
+
+.benefits-list {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.benefits-list li {
+  display: flex;
+  align-items: flex-start;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.benefit-icon {
+  font-size: 2rem;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.benefit-text {
+  text-align: left;
+}
+
+.benefit-text h3 {
+  margin-top: 0;
+}
+
+/* Footer */
+.game-footer {
+  background-color: var(--primary-color);
+  padding: 20px;
+  margin-top: auto;
+}
+
+.author-info {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 0.9rem;
+}
+
+/* Wallet Button */
+.wallet-button-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .feature {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .game-container {
+    height: 400px;
+  }
+  
+  .wallet-button-container {
+    position: absolute;
+    top: 10px !important;
+    right: 10px !important;
+    margin-top: 0;
+  }
+  
+  .benefits-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feature, .step, .benefits-list li, .game-container {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Выделенная строка в таблице лидеров */
+.highlighted-row {
+  background-color: var(--accent-color) !important;
+  font-weight: bold;
+}
+
+/* Улучшенные стили для анимации замка */
+@keyframes lockClose {
+  0% { transform: scale(0.1); opacity: 0; }
+  40% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes lockShackleClose {
+  0% { transform: translateY(-50px); }
+  60% { transform: translateY(-50px); }
+  80% { transform: translateY(-10px); }
+  90% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.lock-animation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeOut 2.5s forwards;
+}
+
+.lock-animation {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  animation: lockClose 0.8s forwards;
+}
+
+.lock-body {
+  position: relative;
+  width: 180px;
+  height: 200px;
+  background: linear-gradient(145deg, #ffdd33, #ffbb00);
+  border-radius: 15px;
+  margin: 60px auto 0;
+  box-shadow: 
+    0 0 30px rgba(255, 204, 0, 0.7),
+    inset 0 5px 15px rgba(255, 255, 255, 0.5),
+    inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+  border: 3px solid #e6b800;
+}
+
+/* По умолчанию дужка замка открыта */
+.lock-shackle {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50px);
+  width: 120px;
+  height: 120px;
+  border: 25px solid #ffcc00;
+  border-radius: 60px 60px 0 0;
+  border-bottom: none;
+  box-shadow: 
+    0 0 20px rgba(255, 204, 0, 0.5),
+    inset 0 5px 10px rgba(255, 255, 255, 0.3),
+    inset 0 -5px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 1.5s ease;
+}
+
+/* Когда замок закрывается */
+.lock-animation.closed .lock-shackle {
+  transform: translateX(-50%) translateY(0);
+}
+
+.keyhole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 45px;
+  height: 45px;
+  background: radial-gradient(circle at 30% 30%, #333333, #000000);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 15px rgba(0, 0, 0, 0.8),
+    0 0 5px rgba(255, 255, 255, 0.2);
+  border: 2px solid #444;
+}
+
+.keyhole::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px;
+  height: 25px;
+  background: linear-gradient(to bottom, #333333, #000000);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+  border-radius: 0 0 5px 5px;
+}
+
+/* Добавляем блики на замке для реалистичности */
+.lock-body::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  filter: blur(5px);
+}
+
+.lock-shackle::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  filter: blur(3px);
+}
+
+/* Добавляем звуковой эффект закрывания замка (визуальная индикация) */
+@keyframes lockSound {
+  0% { box-shadow: 0 0 30px rgba(255, 204, 0, 0.7); }
+  10% { box-shadow: 0 0 50px rgba(255, 204, 0, 0.9); }
+  20% { box-shadow: 0 0 30px rgba(255, 204, 0, 0.7); }
+  100% { box-shadow: 0 0 30px rgba(255, 204, 0, 0.7); }
+}
+
+.lock-animation.closed .lock-body {
+  animation: lockSound 0.3s forwards;
+  animation-delay: 0.5s;
+}
+
+/* Добавляем анимацию для фона */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Добавляем фоновую анимацию с частицами */
+.particles-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: float 15s infinite linear;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* Стилизация страницы */
+.home-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+}
+
+/* Добавляем эффект дождя */
+.rain-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.rain-drop {
+  position: absolute;
+  width: 1.5px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(138, 43, 226, 0.4));
+  top: -100px;
+  opacity: 0.6;
+  border-radius: 0 0 5px 5px;
+  animation: rain-fall linear infinite;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.2);
+}
+
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(calc(100vh + 100px));
+    opacity: 0;
+  }
+}
+
+/* Шифрованный дождь */
+.crypto-rain {
+  position: absolute;
+  color: rgba(138, 43, 226, 0.7);
+  font-family: 'Courier New', monospace;
+  line-height: 1;
+  text-align: center;
+  font-weight: 500;
+  animation: crypto-fall linear infinite;
+  text-shadow: 0 0 5px rgba(176, 38, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.crypto-symbol {
+  margin: 2px 0;
+  animation: crypto-flicker 2s infinite alternate-reverse;
+  background: linear-gradient(to bottom, rgba(176, 38, 255, 0.8), rgba(138, 43, 226, 0.4));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 2px rgba(176, 38, 255, 0.7));
+}
+
+@keyframes crypto-fall {
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(200vh);
+  }
+}
+
+@keyframes crypto-flicker {
+  0%, 30%, 50%, 70%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  20%, 40%, 60%, 80% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+}
+
+/* Улучшаем градиентную анимацию фона */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Добавляем эффект всплесков энергии в фоне */
+.energy-pulse {
+  position: fixed;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(176, 38, 255, 0.2) 0%, transparent 70%);
+  animation: pulse-expand 8s infinite ease-out;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes pulse-expand {
+  0% {
+    transform: scale(0);
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
