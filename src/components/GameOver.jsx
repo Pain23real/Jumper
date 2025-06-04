@@ -6,6 +6,7 @@ const GameOver = ({ visible, score, rank, onRestart, onShowLeaderboard }) => {
   const [isSending, setIsSending] = useState(false);
   const [txHash, setTxHash] = useState(null);
   const [error, setError] = useState(null);
+  const [sendingInitiated, setSendingInitiated] = useState(false);
   
   // Function to send results to blockchain using useCallback
   const sendResultToBlockchain = useCallback(async () => {
@@ -73,48 +74,31 @@ const GameOver = ({ visible, score, rank, onRestart, onShowLeaderboard }) => {
     }
   }, [score, isSending, txHash, error, visible]); // Add visible as dependency
   
-  // Automatically send result when Game Over window appears - only once
+  // Автоматически отправляем результат когда появляется окно Game Over
   useEffect(() => {
-    let mounted = true;
-    let isFirstRender = true;
-    
-    // Log for debugging visibility changes
-    console.log(`GameOver visibility changed: visible=${visible}, txHash=${!!txHash}, isSending=${isSending}, error=${!!error}`);
-    
-    // Создаем функцию для отправки результата с задержкой
-    const sendResultWithDelay = async () => {
-      if (!mounted) return;
+    // Отправляем результат только когда окно становится видимым,
+    // процесс отправки еще не начат и нет результатов предыдущей отправки
+    if (visible && !sendingInitiated && !txHash && !error && !isSending && score > 0) {
+      console.log("Game Over is visible, initiating blockchain submission");
       
-      console.log(`Preparing to send result: score=${score}, visible=${visible}, mounted=${mounted}`);
+      // Устанавливаем флаг, что отправка была инициирована для этой сессии
+      setSendingInitiated(true);
       
-      // Добавляем задержку перед отправкой
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      if (!mounted) {
-        console.log("Component unmounted during delay, aborting send");
-        return;
-      }
+      // Добавляем небольшую задержку перед отправкой для уверенности, что компонент полностью смонтирован
+      const timer = setTimeout(() => {
+        sendResultToBlockchain();
+      }, 1000);
       
-      console.log("Delay completed, proceeding with blockchain submission");
-      
-      // Устанавливаем флаг отправки, чтобы предотвратить повторные вызовы
-      sendResultToBlockchain();
-    };
-    
-    // Отправляем результат только при первом отображении экрана GameOver
-    if (visible && !txHash && !isSending && !error && isFirstRender) {
-      console.log("First render with visible=true, initiating blockchain submission");
-      isFirstRender = false;
-      sendResultWithDelay();
-    } else if (visible && (txHash || isSending || error)) {
-      console.log(`Not sending: txHash=${!!txHash}, isSending=${isSending}, error=${!!error}`);
+      return () => clearTimeout(timer);
     }
-    
-    // Cleanup function to prevent memory leaks and updating state of unmounted component
-    return () => {
-      console.log("GameOver component cleanup");
-      mounted = false;
-    };
-  }, [visible, txHash, isSending, error, sendResultToBlockchain, score]); // Add score as dependency
+  }, [visible, txHash, isSending, error, sendResultToBlockchain, score, sendingInitiated]);
+  
+  // Сбрасываем флаг sendingInitiated когда компонент становится невидимым
+  useEffect(() => {
+    if (!visible) {
+      setSendingInitiated(false);
+    }
+  }, [visible]);
   
   // Check for pending transactions on component mount
   useEffect(() => {
@@ -125,32 +109,6 @@ const GameOver = ({ visible, score, rank, onRestart, onShowLeaderboard }) => {
       localStorage.removeItem('sendingInProgress');
     }
   }, []);
-  
-  // Component mount check - to avoid duplicate submissions due to React remounting
-  useEffect(() => {
-    // Для уникальной идентификации этого конкретного результата игры
-    const gameResultKey = `game_result_${score}_${Date.now()}`;
-    
-    // Проверяем, был ли этот компонент уже отображен
-    const isAlreadyMounted = sessionStorage.getItem(gameResultKey);
-    
-    if (!isAlreadyMounted && visible) {
-      console.log(`First mount of GameOver component for score ${score}, setting session flag`);
-      // Устанавливаем флаг в sessionStorage
-      sessionStorage.setItem(gameResultKey, 'mounted');
-    } else if (isAlreadyMounted && visible) {
-      console.log(`GameOver component remounted for score ${score}, preventing duplicate actions`);
-      // Предотвращаем дублирование
-      setIsSending(false);
-    }
-    
-    return () => {
-      // При размонтировании удаляем флаг, но только если прошло достаточно времени (30 сек)
-      setTimeout(() => {
-        sessionStorage.removeItem(gameResultKey);
-      }, 30000);
-    };
-  }, [visible, score]);
   
   if (!visible) return null;
   

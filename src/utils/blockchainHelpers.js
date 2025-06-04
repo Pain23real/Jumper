@@ -4,6 +4,7 @@
  */
 
 import * as solanaWeb3 from '@solana/web3.js';
+import nacl from 'tweetnacl';
 // Удаляем импорт anchor
 // import * as anchor from '@coral-xyz/anchor';
 
@@ -955,4 +956,174 @@ async function ensureSufficientBalance(wallet, minBalanceSOL = 0.01) {
 }
 
 // Export constants for external use
-export { PROGRAM_ID, RPC_URL, EVENTS }; 
+export { PROGRAM_ID, RPC_URL, EVENTS };
+
+// Проверяем наличие window объекта для работы в браузере
+const isClient = typeof window !== 'undefined';
+
+// Шифрование данных с использованием Arcium (упрощенная версия)
+export const encryptData = (data, publicKey) => {
+  try {
+    if (!data || !publicKey) {
+      console.error('Missing data or publicKey for encryption');
+      return null;
+    }
+
+    // Создаем одноразовый ключ для шифрования
+    const oneTimeKey = nacl.randomBytes(32);
+    
+    // Конвертируем данные в Uint8Array
+    const messageUint8 = new TextEncoder().encode(JSON.stringify(data));
+    
+    // Преобразуем строку publicKey в Uint8Array, если она передана как строка
+    let publicKeyUint8 = publicKey;
+    if (typeof publicKey === 'string') {
+      publicKeyUint8 = new Uint8Array(publicKey.split(',').map(Number));
+    }
+    
+    // Шифруем данные
+    const encryptedMessage = nacl.box.after(
+      messageUint8,
+      nacl.randomBytes(24), // nonce
+      oneTimeKey
+    );
+    
+    // Возвращаем зашифрованные данные
+    return {
+      encryptedData: Array.from(encryptedMessage),
+      oneTimeKey: Array.from(oneTimeKey)
+    };
+  } catch (error) {
+    console.error('Error encrypting data:', error);
+    return null;
+  }
+};
+
+// Проверка наличия кошелька Solana
+export const checkWalletAvailability = () => {
+  if (!isClient) return false;
+  
+  return !!window.solana;
+};
+
+// Получение подключенного кошелька Solana
+export const getConnectedWallet = async () => {
+  if (!isClient) return null;
+  
+  try {
+    if (!window.solana) {
+      console.log('Solana wallet not found');
+      return null;
+    }
+    
+    // Проверяем, подключен ли уже кошелек
+    if (window.solana.isConnected) {
+      return window.solana;
+    }
+    
+    // Запрашиваем подключение к кошельку
+    await window.solana.connect();
+    
+    return window.solana.isConnected ? window.solana : null;
+  } catch (error) {
+    console.error('Error connecting to Solana wallet:', error);
+    return null;
+  }
+};
+
+// Получение или создание аккаунта игрока
+export const getOrCreatePlayerAccount = async (wallet) => {
+  if (!wallet) {
+    console.error('Wallet is required to get player account');
+    return null;
+  }
+  
+  try {
+    // В реальном приложении здесь должен быть код для работы с блокчейном
+    // Для демонстрации используем локальное хранилище
+    const playerAddress = wallet.publicKey.toString();
+    let playerData = localStorage.getItem(`player_${playerAddress}`);
+    
+    if (!playerData) {
+      // Создаем новый аккаунт игрока
+      playerData = JSON.stringify({
+        address: playerAddress,
+        nickname: localStorage.getItem('playerName') || 'Anonymous',
+        createdAt: Date.now(),
+        games: []
+      });
+      
+      localStorage.setItem(`player_${playerAddress}`, playerData);
+    }
+    
+    return JSON.parse(playerData);
+  } catch (error) {
+    console.error('Error getting player account:', error);
+    return null;
+  }
+};
+
+// Отправка результатов игры в блокчейн
+export const sendGameResult = async (score, jumpsCount, platformsVisited, playerName) => {
+  try {
+    console.log(`Preparing to send game result: score=${score}, jumps=${jumpsCount}, platforms=${platformsVisited}, player=${playerName}`);
+    
+    // Для демо-версии без реального блокчейна используем имитацию
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const txHash = `solana-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+        console.log(`Game result sent with transaction hash: ${txHash}`);
+        
+        // Сохраняем результат локально
+        const results = JSON.parse(localStorage.getItem('gameResults') || '[]');
+        results.push({
+          score: parseInt(score),
+          jumpsCount,
+          platformsVisited,
+          playerName,
+          timestamp: Date.now(),
+          txHash
+        });
+        localStorage.setItem('gameResults', JSON.stringify(results));
+        
+        resolve(txHash);
+      }, 2000); // Имитация задержки сети
+    });
+    
+    /* В реальном проекте здесь должен быть код для работы с Solana
+    // 1. Подключаемся к кошельку
+    const wallet = await getConnectedWallet();
+    if (!wallet) {
+      throw new Error('Wallet not connected');
+    }
+    
+    // 2. Получаем аккаунт игрока
+    const playerAccount = await getOrCreatePlayerAccount(wallet);
+    if (!playerAccount) {
+      throw new Error('Failed to get player account');
+    }
+    
+    // 3. Шифруем данные
+    const gameData = {
+      score: parseInt(score),
+      jumpsCount: parseInt(jumpsCount),
+      platformsVisited: parseInt(platformsVisited),
+      playerName,
+      timestamp: Date.now()
+    };
+    
+    const encryptedData = encryptData(gameData, wallet.publicKey.toBytes());
+    if (!encryptedData) {
+      throw new Error('Failed to encrypt game data');
+    }
+    
+    // 4. Отправляем транзакцию в блокчейн
+    // Здесь должен быть код для создания и отправки транзакции
+    
+    return 'tx-hash-placeholder';
+    */
+  } catch (error) {
+    console.error('Error sending game result:', error);
+    throw error;
+  }
+}; 
