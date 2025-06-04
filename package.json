@@ -44,7 +44,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "vercel-build": "npm run build"
+    "vercel-build": "NODE_ENV=production craco build"
   },
   "eslintConfig": {
     "extends": [
@@ -63,5 +63,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   }
 }
