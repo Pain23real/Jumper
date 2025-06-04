@@ -1,7 +1,8 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run vercel-build",
   "outputDirectory": "build",
   "framework": "create-react-app",
+  "installCommand": "npm install --no-save --no-package-lock --force",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
@@ -15,6 +16,10 @@
     }
   ],
   "env": {
-    "NODE_OPTIONS": "--max-old-space-size=4096"
+    "NODE_OPTIONS": "--max-old-space-size=4096",
+    "NPM_FLAGS": "--legacy-peer-deps --no-package-lock --no-save --force",
+    "REACT_VERSION": "18.2.0",
+    "REACT_DOM_VERSION": "18.2.0",
+    "CI": "false"
   }
 } 

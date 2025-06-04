@@ -1,0 +1,9 @@
+legacy-peer-deps=true
+save-exact=true
+exact=true
+force=true
+strict-peer-dependencies=false
+engine-strict=true
+
+react=18.2.0
+react-dom=18.2.0
