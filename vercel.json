@@ -2,7 +2,7 @@
   "buildCommand": "npm run vercel-build",
   "outputDirectory": "build",
   "framework": "create-react-app",
-  "installCommand": "npm install --legacy-peer-deps --no-engine-strict",
+  "installCommand": "npm install --legacy-peer-deps --no-engine-strict --no-audit --no-fund",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
@@ -19,6 +19,8 @@
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "CI": "false",
     "npm_config_legacy_peer_deps": "true",
-    "npm_config_engine_strict": "false"
+    "npm_config_engine_strict": "false",
+    "npm_config_audit": "false",
+    "npm_config_fund": "false"
   }
 } 
