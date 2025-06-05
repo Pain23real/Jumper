@@ -1,8 +1,8 @@
 {
-  "buildCommand": "npm i ajv ajv-keywords && npm run vercel-build",
+  "buildCommand": "npm run vercel-build",
   "outputDirectory": "build",
   "framework": "create-react-app",
-  "installCommand": "npm install --no-save --no-package-lock --force --no-engine-strict",
+  "installCommand": "npm install --legacy-peer-deps --no-engine-strict",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
@@ -17,10 +17,8 @@
   ],
   "env": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
-    "NPM_FLAGS": "--legacy-peer-deps --no-package-lock --no-save --force --no-engine-strict",
-    "REACT_VERSION": "18.2.0",
-    "REACT_DOM_VERSION": "18.2.0",
     "CI": "false",
+    "npm_config_legacy_peer_deps": "true",
     "npm_config_engine_strict": "false"
   }
 } 
