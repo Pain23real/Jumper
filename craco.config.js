@@ -15,7 +15,9 @@ module.exports = {
     plugins: [
       ['@babel/plugin-transform-class-properties', { loose: true }],
       ['@babel/plugin-transform-private-methods', { loose: true }],
-      ['@babel/plugin-transform-private-property-in-object', { loose: true }]
+      ['@babel/plugin-transform-private-property-in-object', { loose: true }],
+      '@babel/plugin-proposal-nullish-coalescing-operator',
+      '@babel/plugin-proposal-optional-chaining'
     ]
   },
   webpack: {
@@ -70,27 +72,10 @@ module.exports = {
       return webpackConfig;
     }
   },
-  // Добавляем поддержку IE11 (опционально)
-  babel: {
-    presets: [
-      [
-        '@babel/preset-env',
-        {
-          targets: {
-            browsers: ['>0.2%', 'not dead', 'not op_mini all'],
-          },
-        },
-      ],
-    ],
-    plugins: [
-      '@babel/plugin-proposal-nullish-coalescing-operator',
-      '@babel/plugin-proposal-optional-chaining',
-    ],
-  },
   // Оптимизация сборки
   jest: {
     configure: {
-      moduleNameMapper: {
+      moduleNameMapping: {
         '^(\\.{1,2}/.*)\\.js$': '$1',
       },
     },
