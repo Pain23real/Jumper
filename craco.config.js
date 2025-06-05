@@ -3,8 +3,19 @@ const webpack = require('webpack');
 
 module.exports = {
   babel: {
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          loose: true
+        }
+      ],
+      ['@babel/preset-react', { runtime: 'automatic' }]
+    ],
     plugins: [
-      ['styled-jsx/babel', { optimizeForSpeed: true }]
+      ['@babel/plugin-transform-class-properties', { loose: true }],
+      ['@babel/plugin-transform-private-methods', { loose: true }],
+      ['@babel/plugin-transform-private-property-in-object', { loose: true }]
     ]
   },
   webpack: {
@@ -21,9 +32,12 @@ module.exports = {
         "http": require.resolve("stream-http"),
         "https": require.resolve("https-browserify"),
         "zlib": require.resolve("browserify-zlib"),
-        "assert": require.resolve("assert/"),
-        "url": require.resolve("url/"),
+        "assert": require.resolve("assert"),
+        "url": require.resolve("url"),
         "process": require.resolve("process/browser"),
+        "util": require.resolve("util"),
+        "net": false,
+        "tls": false
       };
 
       // Добавляем дополнительные плагины для поддержки библиотек блокчейна
