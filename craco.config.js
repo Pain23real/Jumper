@@ -42,6 +42,14 @@ module.exports = {
         "tls": false
       };
 
+      // Добавляем aliases для правильного разрешения модулей
+      webpackConfig.resolve.alias = {
+        ...webpackConfig.resolve.alias,
+        'react-native$': 'react-native-web',
+        'process/browser': require.resolve('process/browser'),
+        'process': require.resolve('process/browser'),
+      };
+
       // Добавляем дополнительные плагины для поддержки библиотек блокчейна
       webpackConfig.plugins.push(
         new webpack.ProvidePlugin({
@@ -50,24 +58,19 @@ module.exports = {
         })
       );
 
-      // Устанавливаем целевую платформу для Solana библиотек
-      webpackConfig.resolve.alias = {
-        ...webpackConfig.resolve.alias,
-        'react-native$': 'react-native-web',
-      };
-
-      // Отключаем минификацию для лучшей отладки на Vercel
-      if (process.env.NODE_ENV === 'production') {
-        webpackConfig.optimization.minimize = true;
-        // Если есть проблемы, можно установить в false для отладки
-      }
-
       // Настройка для больших бандлов
       webpackConfig.performance = {
         maxEntrypointSize: 512000,
         maxAssetSize: 512000,
         hints: process.env.NODE_ENV === 'production' ? 'warning' : false,
       };
+
+      // Добавляем правило для обработки .mjs файлов
+      webpackConfig.module.rules.push({
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      });
 
       return webpackConfig;
     }
