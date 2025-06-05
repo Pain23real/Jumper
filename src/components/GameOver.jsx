@@ -20,7 +20,7 @@ const GameOver = ({ visible, score, rank, onRestart, onShowLeaderboard }) => {
       return;
     }
     
-    // Проверяем, что игра действительно завершена (visible=true) и есть счет
+    // Check if the game is actually finished (visible=true) and has a score
     if (!visible || score <= 0) {
       console.log(`Invalid game state for sending: visible=${visible}, score=${score}`);
       return;
@@ -558,6 +558,96 @@ const GameOver = ({ visible, score, rank, onRestart, onShowLeaderboard }) => {
           0% { transform: scale(1); }
           50% { transform: scale(1.2); }
           100% { transform: scale(1); }
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+          .game-over-container {
+            width: 95%;
+            padding: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+          }
+          
+          h1 {
+            font-size: 2rem;
+          }
+          
+          .score-item {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+          }
+          
+          .score-value {
+            font-size: 1.1rem;
+          }
+          
+          .message {
+            padding: 12px;
+            font-size: 1rem;
+          }
+          
+          .blockchain-section {
+            padding: 15px;
+            min-height: 60px;
+          }
+          
+          .blockchain-header h3 {
+            font-size: 1.1rem;
+          }
+          
+          .buttons {
+            flex-direction: column;
+            gap: 10px;
+          }
+          
+          button {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+          }
+          
+          .tx-link {
+            font-size: 0.9rem;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .game-over-container {
+            padding: 15px;
+          }
+          
+          h1 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+          }
+          
+          .score-item {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+          }
+          
+          .score-value {
+            font-size: 1rem;
+          }
+          
+          .message {
+            padding: 10px;
+            font-size: 0.9rem;
+          }
+          
+          .blockchain-section {
+            padding: 12px;
+          }
+          
+          .blockchain-header h3 {
+            font-size: 1rem;
+          }
+          
+          button {
+            padding: 12px 15px;
+            font-size: 1rem;
+          }
         }
       `}</style>
     </div>

@@ -16,7 +16,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 import GamePage from './pages/GamePage';
 import Leaderboard from './components/Leaderboard';
 import { initializePlayer, isWalletConnected } from './utils/blockchainHelpers';
-// Подключаем стили по умолчанию
+// Connect default styles
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 // Пропускаем ошибки с подключением криптокошельков
@@ -521,64 +521,8 @@ function App() {
                           if (walletConnected && hasNickname) {
                             setShowGamePage(true);
                           } else {
-                            // Сохраняем флаг, что нужно показать диалог ввода имени после перехода на страницу игры
+                            // Save flag that need to show name input dialog after transitioning to game page
                             localStorage.setItem('showNameDialogOnGame', 'true');
-                            
-                            // Показываем всплывающее сообщение о необходимости ввести ник Discord
-                            const nameMsg = document.createElement('div');
-                            nameMsg.className = 'name-required-msg';
-                            nameMsg.innerHTML = `
-                              <div class="name-msg-content">
-                                <div class="name-msg-icon">👤</div>
-                                <div class="name-msg-text">Пожалуйста, введите ваш ник Discord для начала игры</div>
-                              </div>
-                            `;
-                            
-                            // Стили для сообщения
-                            nameMsg.style.position = 'fixed';
-                            nameMsg.style.top = '80px';
-                            nameMsg.style.right = '20px';
-                            nameMsg.style.backgroundColor = 'rgba(26, 9, 51, 0.9)';
-                            nameMsg.style.color = 'white';
-                            nameMsg.style.padding = '15px';
-                            nameMsg.style.borderRadius = '10px';
-                            nameMsg.style.boxShadow = '0 0 20px rgba(176, 38, 255, 0.5)';
-                            nameMsg.style.zIndex = '9999';
-                            nameMsg.style.animation = 'fadeIn 0.5s ease-out';
-                            nameMsg.style.border = '1px solid rgba(176, 38, 255, 0.3)';
-                            
-                            // Стили для содержимого
-                            const content = nameMsg.querySelector('.name-msg-content');
-                            content.style.display = 'flex';
-                            content.style.alignItems = 'center';
-                            content.style.gap = '10px';
-                            
-                            // Стили для иконки
-                            const icon = nameMsg.querySelector('.name-msg-icon');
-                            icon.style.fontSize = '1.5rem';
-                            icon.style.color = '#b026ff';
-                            
-                            // Стили для текста
-                            const text = nameMsg.querySelector('.name-msg-text');
-                            text.style.fontSize = '0.9rem';
-                            
-                            // Добавляем сообщение в DOM
-                            document.body.appendChild(nameMsg);
-                            
-                            // Удаляем сообщение через 5 секунд
-                            setTimeout(() => {
-                              if (nameMsg && nameMsg.parentNode) {
-                                nameMsg.style.opacity = '0';
-                                nameMsg.style.transform = 'translateY(-20px)';
-                                nameMsg.style.transition = 'all 0.5s ease-out';
-                                
-                                setTimeout(() => {
-                                  if (nameMsg && nameMsg.parentNode) {
-                                    nameMsg.parentNode.removeChild(nameMsg);
-                                  }
-                                }, 500);
-                              }
-                            }, 5000);
                             
                             setShowGamePage(true);
                           }

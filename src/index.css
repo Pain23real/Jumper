@@ -9,6 +9,15 @@ body {
   min-height: 100vh;
   background-color: #4a2b7a;
   overflow-x: hidden;
+  /* Prevent text selection on mobile */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Prevent scaling on double tap */
+  touch-action: manipulation;
+  /* Remove tap highlight on iOS */
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -16,6 +25,10 @@ html {
   padding: 0;
   min-height: 100%;
   background-color: #4a2b7a;
+  /* Enhanced scrolling */
+  scroll-behavior: smooth;
+  /* Smooth font rendering */
+  text-rendering: optimizeLegibility;
 }
 
 code {
@@ -27,4 +40,42 @@ code {
 #root {
   min-height: 100vh;
   background-color: #4a2b7a;
+  /* Prevent horizontal overflow */
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Мобильные стили для лучшего UX */
+@media (max-width: 768px) {
+  body {
+    /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+    /* Improve performance on mobile */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Remove outline on mobile devices */
+  *:focus {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  
+  /* Улучшаем кнопки для сенсорного управления */
+  button, .control-btn {
+    /* Prevent zoom scaling */
+    touch-action: manipulation;
+  }
+}
+
+/* Стили для предотвращения масштабирования */
+input, textarea, select {
+  /* Prevent zoom on iOS */
+  font-size: 16px;
+}
+
+/* Улучшенная прокрутка на мобильных */
+* {
+  /* Enhanced mobile scrolling */
+  -webkit-overflow-scrolling: touch;
 }

@@ -1,26 +1,36 @@
-# The Secret Jump
+# The Secret Jump - Solana Game
 
-An exciting platformer game with Solana blockchain integration, offering engaging gameplay and a unique system for recording results on the blockchain.
-
-![The Secret Jump Game](screenshot.png)
+The Secret Jump game with Solana wallet integration and Arcium encryption.
 
 ## Features
 
-- **Engaging Gameplay**: Jump across platforms, collect bonuses, and set records
-- **Solana Blockchain Integration**: Your achievements are permanently stored on the blockchain
-- **Modern Interface**: Stylish neon design with animated effects
-- **Leaderboard**: Compete with other players
-- **Cross-platform**: Play in any browser on any device
+- 🎮 Engaging umbrella jumping gameplay
+- 🔗 Solana blockchain integration
+- 🔐 Data encryption via Arcium
+- 📱 Full mobile optimization
+- 🏆 Ranking and achievement system
+- 🌧️ Progressive game difficulty
 
-## Technologies
+## Mobile Optimization
 
-- React.js
-- HTML5 Canvas
-- Web3.js
-- Solana Blockchain
-- CSS3 with animations
+The game is fully optimized for mobile devices:
 
-## Installation and Setup
+### Responsive Design
+- Automatic scaling for different screen sizes
+- Optimized element sizes for touch controls
+- Adaptive game field height (max 800px for consistent difficulty)
+
+### Touch Controls
+- Virtual control buttons on mobile devices
+- Touch and gesture support
+- Prevention of accidental zooming
+
+### Performance
+- Disabled heavy animations on mobile to save battery
+- Optimized graphics for mobile GPUs
+- Reduced particle effects on smaller screens
+
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -40,17 +50,45 @@ npm start
 
 4. Open your browser and go to `http://localhost:3000`
 
-## How to Play
+## Gameplay
 
-- Use arrow keys (or touch controls on mobile devices) to move
-- Jump across platforms and avoid falling
-- Collect bonuses to increase your score
-- After the game ends, your result will be recorded on the Solana blockchain
+### Goal
+Jump on umbrellas and score as many points as possible while avoiding falling.
 
-## Arcium Protection
+### Controls
+- **Desktop**: Use A/D or arrow keys ←/→ to move
+- **Mobile**: Use on-screen control buttons
 
-The game is protected by Arcium technology, ensuring the security and integrity of the gameplay.
+### On mobile devices:
+1. Touch and hold the left button to move left
+2. Touch and hold the right button to move right
+3. Character automatically jumps on umbrellas
 
-## License
+## Ranking System
 
-MIT License
+1. **Sybil** - starting rank (0-500 points)
+2. **Approve** - beginner (500-1000 points)
+3. **GMPC** - intermediate (1000-2000 points)
+4. **Arcian** - advanced (2000-3500 points)
+5. **PARASOL** - expert (3500-5000 points)
+6. **Loosty GM** - master (5000-7500 points)
+7. **Monster** - adds swaying umbrellas
+8. **BOT** - legend (10000+ points)
+9. **LEGEND** - ultimate rank (15000+ points)
+
+## Technical Details
+
+- Built with React and HTML5 Canvas
+- Solana Web3.js integration
+- Arcium protocol for data encryption
+- Progressive Web App (PWA) support
+- Full mobile responsiveness
+
+## Blockchain Integration
+
+All game results are encrypted and stored on the Solana blockchain using the Arcium protocol for maximum security and transparency.
+
+## Authors
+
+Created by **Oiratos**  
+Protected by Arcium

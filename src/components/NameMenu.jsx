@@ -9,65 +9,65 @@ const NameMenu = ({ visible, onSave, initialName, walletConnected }) => {
     setName(initialName || '');
   }, [initialName]);
   
-  // Проверка, занят ли ник
+  // Check if nickname is taken
   const checkNameAvailability = (nickname) => {
-    // Получаем все сохраненные имена и их привязки к кошелькам
+    // Get all saved names and their wallet bindings
     const walletNamesStr = localStorage.getItem('walletNames');
-    if (!walletNamesStr) return true; // Нет сохраненных имен
+    if (!walletNamesStr) return true; // No saved names
     
     const walletNames = JSON.parse(walletNamesStr);
     
-    // Проверяем, есть ли этот ник среди значений
+    // Check if this nickname exists among values
     return !Object.values(walletNames).includes(nickname);
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Проверка на пустое имя
+    // Check for empty name
     if (!name.trim()) {
-      setError('Пожалуйста, введите ваш ник Discord');
+      setError('Please enter your Discord nickname');
       return;
     }
     
-    // Проверка на соответствие формату Discord (например, name#0000)
-    // Эту проверку можно модифицировать по вашему усмотрению
+    // Check for Discord format compliance (e.g., name#0000)
+    // This validation can be modified as needed
     if (!/^[a-zA-Z0-9_]{2,32}(#\d{4})?$/.test(name.trim())) {
-      setError('Пожалуйста, введите корректный ник Discord');
+      setError('Please enter a valid Discord nickname');
       return;
     }
     
-    // Проверяем, занят ли ник
+    // Check if nickname is taken
     if (!checkNameAvailability(name.trim())) {
-      setError('Этот ник уже привязан к другому кошельку');
+      setError('This nickname is already linked to another wallet');
       return;
     }
     
     setLoading(true);
     
-    // Сохраняем имя
+    // Save name
     onSave(name.trim());
     
-    // Запускаем подключение кошелька, если он еще не подключен
+    // Start wallet connection if not already connected
     if (!walletConnected) {
       setTimeout(() => {
-        // Находим кнопку подключения кошелька и имитируем клик
+        // Find wallet connection button and simulate click
         const walletButton = document.querySelector('.wallet-adapter-button-trigger');
         
         if (walletButton) {
-          // Отмечаем, что ник уже был сохранен перед подключением кошелька
+          // Mark that nickname was already saved before wallet connection
           localStorage.setItem('nicknameAlreadySaved', 'true');
           
-          // Показываем уведомление о необходимости подключить кошелек
+          // Show notification about need to connect wallet
           if (window.showNotification) {
             window.showNotification({
               type: 'info',
-              message: 'Для игры необходимо подключить кошелек',
+              message: 'Wallet connection required for gameplay',
               duration: 5000
             });
           }
           
-          // Имитируем клик по кнопке кошелька
+          // Simulate click on wallet button
           walletButton.click();
         }
         
@@ -85,11 +85,11 @@ const NameMenu = ({ visible, onSave, initialName, walletConnected }) => {
       <div className="name-menu">
         <div className="name-header">
           <div className="name-icon">👤</div>
-          <h2>Как вас зовут?</h2>
+          <h2>What's your name?</h2>
         </div>
         
         <p className="name-description">
-          Введите ваш ник Discord для сохранения результатов
+          Enter your Discord nickname to save your results
         </p>
         
         <form onSubmit={handleSubmit}>
@@ -99,9 +99,9 @@ const NameMenu = ({ visible, onSave, initialName, walletConnected }) => {
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
-                setError(''); // Сбрасываем ошибку при изменении имени
+                setError(''); // Reset error when name changes
               }}
-              placeholder="Ваш ник Discord"
+              placeholder="Your Discord nickname"
               className={error ? 'error' : ''}
             />
             {error && <div className="error-message">{error}</div>}
@@ -115,10 +115,10 @@ const NameMenu = ({ visible, onSave, initialName, walletConnected }) => {
             {loading ? (
               <>
                 <span className="loading-spinner"></span>
-                Подключение...
+                Connecting...
               </>
             ) : (
-              'Сохранить'
+              'Save'
             )}
           </button>
         </form>

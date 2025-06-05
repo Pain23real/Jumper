@@ -7,7 +7,7 @@ import PauseMenu from './PauseMenu';
 import GameOver from './GameOver';
 import Leaderboard from './Leaderboard';
 import { savePlayerScore } from '../utils/gameHelpers';
-import { showNotification } from '../utils/notificationSystem';
+import notificationManager from '../utils/notificationSystem';
 
 const GameContainer = () => {
   // Получаем данные о кошельке пользователя
@@ -50,14 +50,19 @@ const GameContainer = () => {
       setShowNameInput(true);
       setShowStartButton(false);
       
-      // Показываем уведомление о необходимости ввести ник Discord
-      setTimeout(() => {
-        showNotification({
-          type: 'discord',
-          message: 'Пожалуйста, введите ваш ник Discord для начала игры',
-          duration: 8000
-        });
-      }, 500);
+      // Показываем уведомление о необходимости ввести ник Discord только если кошелек подключен
+      if (walletAddress) {
+        setTimeout(() => {
+          notificationManager.createNotification(
+            'Please enter your Discord nickname to start the game',
+            {
+              type: 'info',
+              icon: '👤',
+              duration: 8000
+            }
+          );
+        }, 500);
+      }
       
       return;
     }
@@ -74,13 +79,16 @@ const GameContainer = () => {
         setShowNameInput(true);
         setShowStartButton(false);
         
-        // Показываем уведомление о необходимости ввести ник Discord
+        // Показываем уведомление о необходимости ввести ник Discord только для подключенного кошелька
         setTimeout(() => {
-          showNotification({
-            type: 'discord',
-            message: 'Пожалуйста, введите ваш ник Discord для начала игры',
-            duration: 8000
-          });
+          notificationManager.createNotification(
+            'Please enter your Discord nickname to start the game',
+            {
+              type: 'info',
+              icon: '👤',
+              duration: 8000
+            }
+          );
         }, 500);
       }
     }
@@ -223,11 +231,14 @@ const GameContainer = () => {
       if (isNameTaken) {
         // Показываем уведомление об ошибке
         console.error("Этот ник Discord уже привязан к другому кошельку");
-        showNotification({
-          type: 'error',
-          message: 'Этот ник Discord уже привязан к другому кошельку',
-          duration: 5000
-        });
+        notificationManager.createNotification(
+          'This Discord nickname is already linked to another wallet',
+          {
+            type: 'error',
+            icon: '⚠️',
+            duration: 6000
+          }
+        );
         return;
       }
       
@@ -250,11 +261,14 @@ const GameContainer = () => {
     const wasFromMainPage = localStorage.getItem('showNameDialogOnGame') === 'true';
     
     // Показываем уведомление об успешном сохранении
-    showNotification({
-      type: 'success',
-      message: 'Ник Discord успешно сохранен!',
-      duration: 3000
-    });
+    notificationManager.createNotification(
+      'Discord nickname successfully saved!',
+      {
+        type: 'success',
+        icon: '✅',
+        duration: 4000
+      }
+    );
     
     // Автоматически запускаем игру, если пришли с главной страницы
     if (wasFromMainPage) {
@@ -291,7 +305,7 @@ const GameContainer = () => {
     }
   };
   
-  // Обнаруживаем мобильные устройства для отображения элементов управления
+  // Detect mobile devices for displaying controls
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const checkMobile = () => {
@@ -305,6 +319,35 @@ const GameContainer = () => {
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
+  
+  // Handlers for mobile controls
+  const handleLeftStart = (e) => {
+    e.preventDefault();
+    if (gameRef.current && gameStarted && !gamePaused && !gameOver) {
+      gameRef.current.startMoveLeft();
+    }
+  };
+  
+  const handleLeftEnd = (e) => {
+    e.preventDefault();
+    if (gameRef.current) {
+      gameRef.current.stopMoveLeft();
+    }
+  };
+  
+  const handleRightStart = (e) => {
+    e.preventDefault();
+    if (gameRef.current && gameStarted && !gamePaused && !gameOver) {
+      gameRef.current.startMoveRight();
+    }
+  };
+  
+  const handleRightEnd = (e) => {
+    e.preventDefault();
+    if (gameRef.current) {
+      gameRef.current.stopMoveRight();
+    }
+  };
   
   return (
     <div className="game-container">
@@ -359,10 +402,26 @@ const GameContainer = () => {
       {/* Мобильные элементы управления */}
       {isMobile && gameStarted && !gamePaused && !gameOver && (
         <div className="mobile-controls">
-          <div id="leftBtn" className="control-btn left-btn">
+          <div 
+            id="leftBtn" 
+            className="control-btn left-btn"
+            onTouchStart={handleLeftStart}
+            onTouchEnd={handleLeftEnd}
+            onMouseDown={handleLeftStart}
+            onMouseUp={handleLeftEnd}
+            onMouseLeave={handleLeftEnd}
+          >
             <span className="arrow">←</span>
           </div>
-          <div id="rightBtn" className="control-btn right-btn">
+          <div 
+            id="rightBtn" 
+            className="control-btn right-btn"
+            onTouchStart={handleRightStart}
+            onTouchEnd={handleRightEnd}
+            onMouseDown={handleRightStart}
+            onMouseUp={handleRightEnd}
+            onMouseLeave={handleRightEnd}
+          >
             <span className="arrow">→</span>
           </div>
         </div>
@@ -372,9 +431,10 @@ const GameContainer = () => {
         .game-container {
           position: relative;
           width: 100%;
-          height: 0;
-          padding-bottom: 75%; /* Соотношение 4:3 */
-          background-color: #4a2b7a;
+          max-width: 800px;
+          height: 750px;
+          margin: 0 auto;
+          background-color: transparent;
           overflow: hidden;
           border-radius: 10px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -415,12 +475,26 @@ const GameContainer = () => {
         
         @media (max-width: 768px) {
           .game-container {
-            padding-bottom: 100%; /* Более квадратное соотношение на мобильных */
+            height: 60vh;
+            max-height: 500px;
+            min-height: 350px;
+            margin: 10px auto;
+            padding: 10px;
           }
           
           .control-btn {
             width: 60px;
             height: 60px;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .game-container {
+            height: 55vh;
+            max-height: 400px;
+            min-height: 300px;
+            margin: 5px auto;
+            padding: 5px;
           }
         }
       `}</style>

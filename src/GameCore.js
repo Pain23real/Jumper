@@ -700,7 +700,7 @@ class GameCore {
   
   // Получение категории по очкам
   getCategory(score) {
-    if (score < 500) return 'Aprove?';
+    if (score < 500) return 'Approve?';
     if (score < 1000) return 'Gmpc';
     if (score < 1500) return 'Arcian';
     if (score < 2000) return 'PARASOL ☂️';

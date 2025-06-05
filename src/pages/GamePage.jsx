@@ -21,6 +21,10 @@ const GamePage = () => {
             <p>Use <span className="key">A</span> or <span className="key">←</span> to move left, <span className="key">D</span> or <span className="key">→</span> to move right</p>
           </div>
           <div className="instruction-item">
+            <div className="instruction-icon">📱</div>
+            <p>On mobile: Use the on-screen arrow buttons to control movement</p>
+          </div>
+          <div className="instruction-item">
             <div className="instruction-icon">🧿</div>
             <p>Character automatically jumps on umbrellas</p>
           </div>
@@ -535,16 +539,79 @@ const GamePage = () => {
         }
         
         @media (max-width: 768px) {
-          .instructions-grid {
-            grid-template-columns: 1fr;
+          .game-page {
+            padding: 10px;
           }
           
           .game-title {
             font-size: 2rem;
+            margin-bottom: 15px;
           }
           
-          .umbrellas-grid, .difficulty-grid {
+          .instructions-grid {
             grid-template-columns: 1fr;
+            gap: 15px;
+          }
+          
+          .umbrellas-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+          }
+          
+          .difficulty-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+          }
+          
+          .instruction-item {
+            padding: 15px;
+          }
+          
+          .umbrella-card {
+            padding: 15px;
+          }
+          
+          .rank-card {
+            padding: 15px;
+          }
+          
+          .section-title {
+            font-size: 1.3rem;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .game-title {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+          }
+          
+          .umbrellas-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .difficulty-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .instruction-item {
+            padding: 10px;
+          }
+          
+          .umbrella-card {
+            padding: 10px;
+          }
+          
+          .rank-card {
+            padding: 10px;
+          }
+          
+          .instruction-icon {
+            font-size: 1.5rem;
+          }
+          
+          .rank-badge {
+            font-size: 1.5rem;
           }
         }
         
