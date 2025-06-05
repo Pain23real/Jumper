@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run vercel-build",
+  "buildCommand": "npm i ajv ajv-keywords && npm run vercel-build",
   "outputDirectory": "build",
   "framework": "create-react-app",
   "installCommand": "npm install --no-save --no-package-lock --force --no-engine-strict",
